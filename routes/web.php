@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::controller(WebhookController::class)->group(function () {
+    Route::get('webhook', 'webhook');
+    Route::post('webhook', 'webhook');
+    Route::get('redirect_url', 'redirect_url');
+
 });

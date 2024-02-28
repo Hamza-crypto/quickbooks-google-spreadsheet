@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "dazzling-galaxy-401216",
+  "private_key_id": "ddb37a13a0e21ae8f9ca4fea98c821941d9b8c37",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDGSqL/iWP3Z5Ni\nySu9XTY5aIMc52Vwlulbh3ZY6Z+k7LKf/BJBUHomfBbyGdhkB4QSTTVc7nLF5AZb\nc7hCuwgv871FYn9xB3JVx6We/sShB03ucfJ3xAIzd+J+iPf4OnxQYEa6HuzPXNGq\nFBmZRqTMc/ppxJPhKOXnPy9d6XcCEwJvgnHSxScMuvq5AhnfWvyjw4skn9n+5js2\n9aOhxMUlV0+JhtD+sTWYWrKShJiG903UCb/hFGSYpN+qNhFjAe4DeUOO8iM+GX8h\nqF8ctJ9DCMOA9bCADV8aK4+mLSfEJh6b5u3814d4THpjmV32Uk6snq6tGOon/I+e\n1BFa7jLpAgMBAAECggEATpYm+nqDhXpltbl/3clS47axe+OTVudgbdeGhl9012K9\nul0nCP6xoo38dA/dLGu0IqK52u5fy2D/SgBXTw8cBBEn+pc6ZdvrKub4k0ZqPF2O\nO8mqLGAg9S/2smprSFQ5j4tQjJQUC2zAZZUYvh/60VLHtGJlr09LqnXmumP8N/QI\nKnS8hFXh4lmsQla02mJPQ9Nx0KIMzc5c7aAd8Y/vkQUSMauu7uf2fk/0HXg6v5lh\nOwy7zOFFSesLK95NKOsi1m/nuU7tcaLlg7WbVtQULaZxmU7+C6ron1NpwTRVKqbK\n58pGZFKLJVbreAVUFtcQujLV5bxvJzOFsmwWz9U8zwKBgQD6KTVoBmYxecivL+ih\npHcYc1Qa1/oeipoCr9rnNbXMLiRm29JAFyYIdSH3fN/1ZHreZmHqtyZyh5WmquoA\nG2o1gMses/bVdSKD4SaBbnTK8g/rODr7XC7CCxk4fEQDxnywEZPcRq3NjlLQnuFJ\nGwidqmAm8Up0ZsglnIpuQuucFwKBgQDK633mkQ6sZjftk4cWohA0EABc4wjckU7N\nAvJ3xFi5plthm1bqlIkoI0V7Apj4ZHyiUk9XG1dzGOMOXrwoJ1rkA9fl7mqll+Cm\nl1MNrlV7vcX/y4y9XRDInHGVx2v5Gg2TPTPvxA+VPX25LJw/GT4ON1vTqkJZqwqV\n3BZNvqsI/wKBgAomT99nmw/Y1Bafh/2+8YIRc9EfACvrDbKcNfJ5kGW3XYy60H3/\nMnDXZ8hlzaRkLkQFvWVLhwjQjXbUqmfUtOt0zUjynkos1XiqUuifdaeiSJkPj/0Q\n0WjYEG7lQ9EvZXGzVN90EqsrYhrKx3My4JedCQerdIzieq5j+o3csziDAoGBAIz1\n5fHDFqRgJb3d29u3HPZtnzLnbAJ81nbH81OLi+77R0OYu1odcOH3Do8TENyMQaAo\n+YCTN752rVQQLzjdjeATY2kQo/kAdkiDmmhIkI1zGRZGejAZdE1HkAfyDmlu1btQ\nqsGGOyT7IFkASlHy4Q7TGfEBtzG/BY1w4/WB3CJVAoGATNS+aug2/SXoD2xPfNID\n1Ow7WKwFyot62W5tYLW48kbFFZ2kO7FksXQ/NHzyb4UrlV1QMjr2uID6bE7I+uVw\nyW2Lp5RKXt3RmwiAPNSB6b8VfHpmnzBZK8DPlTsBIKBOCLdtTgBJ7bi1FQjlLn9t\ncVyeiUUVxDPHBy/ZvnPfQ9U=\n-----END PRIVATE KEY-----\n",
+  "client_email": "qb-service-account@dazzling-galaxy-401216.iam.gserviceaccount.com",
+  "client_id": "117614861599828764167",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/qb-service-account%40dazzling-galaxy-401216.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
