@@ -30,3 +30,7 @@ Route::get('migrate', function () {
     Artisan::call('migrate:fresh --seed');
     dump('Migration Done');
 });
+
+Route::get('schedule', function () {
+    Artisan::call('quickbooks:refresh-access-token');
+});

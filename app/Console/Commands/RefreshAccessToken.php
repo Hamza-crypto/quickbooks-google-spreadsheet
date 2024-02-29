@@ -15,15 +15,27 @@ class RefreshAccessToken extends Command
     protected $description = 'Command description';
 
      public function handle()
-    {
-        $oauth2LoginHelper = new OAuth2LoginHelper(env('QUICKBOOKS_API_KEY'),env('QUICKBOOKS_API_SECRET'));
-        $oauth2LoginHelper->setLogForOAuthCalls(true, true, '/public/storage/abc');
-        $accessTokenObj = $oauth2LoginHelper->refreshAccessTokenWithRefreshToken(env('QUICKBOOKS_REFRESH_TOKEN'));
-        $accessTokenValue = $accessTokenObj->getAccessToken();
-        $refreshTokenValue = $accessTokenObj->getRefreshToken();
+     {
+        $clientId = env('QUICKBOOKS_API_KEY');
+        $clientSecret = env('QUICKBOOKS_API_SECRET');
 
-        $this->changeEnvironmentVariable('QUICKBOOKS_ACCESS_TOKEN', $accessTokenValue);
-        $this->changeEnvironmentVariable('QUICKBOOKS_REFRESH_TOKEN', $refreshTokenValue);
+        $response = Http::asForm()->withBasicAuth($clientId, $clientSecret)
+        ->withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/x-www-form-urlencoded',
+
+        ])
+        ->post(env('QB_TOKEN_URL'), [
+            'refresh_token' => env('QUICKBOOKS_REFRESH_TOKEN'),
+            'grant_type' => 'refresh_token',
+        ]);
+
+        $responseData = $response->json();
+
+        $this->changeEnvironmentVariable('QUICKBOOKS_ACCESS_TOKEN', $responseData['access_token']);
+        $this->changeEnvironmentVariable('QUICKBOOKS_REFRESH_TOKEN', $responseData['refresh_token']);
+
+        dump('Token Updated');
     }
 
     private function changeEnvironmentVariable($key, $value)
