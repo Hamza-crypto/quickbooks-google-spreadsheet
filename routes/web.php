@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\WebhookController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,4 +24,9 @@ Route::controller(WebhookController::class)->group(function () {
     Route::post('webhook', 'webhook');
     Route::get('redirect_url', 'redirect_url');
 
+});
+
+Route::get('migrate', function () {
+    Artisan::call('migrate:fresh --seed');
+    dump('Migration Done');
 });

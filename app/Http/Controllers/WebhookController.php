@@ -30,7 +30,7 @@ class WebhookController extends Controller
         // Fetch estimate details using QuickBooks API
         $estimate = $this->qb_controller->call("estimate/{$estimateId}");
 
-        $privateNote = $estimate['Estimate']['Id'] . "_" . $estimate['Estimate']['PrivateNote'];
+        $privateNote = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id'];
 
         // Extract necessary data from the estimate response
         $lineItems = $estimate['Estimate']['Line'];
