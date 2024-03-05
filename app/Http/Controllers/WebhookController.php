@@ -160,9 +160,14 @@ class WebhookController extends Controller
         }
         elseif($operation == 'Update'){
             try{
-                // Delete existing tab if present
-                Sheets::spreadsheet($spreadsheetId)->deleteSheet($sheetTitle);
-                $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
+                try{
+                    // Delete existing tab if present
+                    Sheets::spreadsheet($spreadsheetId)->deleteSheet($sheetTitle);
+                }
+                catch(Exception $e){
+                    $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
+                }
+
 
                 $headerRow = [
                         "PRODUCT/SERVICE" => "PRODUCT/SERVICE",
