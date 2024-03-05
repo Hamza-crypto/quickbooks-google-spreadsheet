@@ -24,13 +24,21 @@ class WebhookController extends Controller
 
     public function webhook(Request $request)
     {
+
+        $eventNotification = $request['eventNotifications'][0];
+        $requestData = $eventNotification['dataChangeEvent']['entities'][0];
+
+        if($requestData['name'] != 'Estimate') return;
+
+
+        $estimateId = $requestData['id'];
+
         // Extract the estimate ID from the webhook request
-        $estimateId = 13709; //$request->input('estimate_id');
+        $estimateId = 146; //13709; //$entity['id'];
 
         // Fetch estimate details using QuickBooks API
         $estimate = $this->qb_controller->call("estimate/{$estimateId}");
 
-        $privateNote = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id'];
 
         // Extract necessary data from the estimate response
         $lineItems = $estimate['Estimate']['Line'];
@@ -45,15 +53,15 @@ class WebhookController extends Controller
                 $productIds[] = $productId;
             }
         }
-dump($productIds);
+// dump($productIds);
         // Fetch product details including SKUs based on product IDs
         $productDetails = $this->getProductDetails($productIds);
-dump($productDetails);
+// dump($productDetails);
         // Generate an array of products along with SKUs
         $productsArray = $this->generateProductsArray($lineItems, $productDetails);
-dump($productsArray);
+// dump($productsArray);
         // Push data to Google Sheet
-        $this->pushToGoogleSheet($request, $productsArray, $privateNote);
+        $this->pushToGoogleSheet($requestData, $estimate, $productsArray);
     }
 
     // Fetch product details including SKUs based on product IDs
@@ -93,6 +101,12 @@ dump($productsArray);
                 $materialCost = $productDetail['PurchaseCost'] ?? '';
 
                 // Add each line item to the array with all necessary columns
+
+                $rate_formula_75 = $rate * 0.75;
+                $rate_number_75 = $rate_formula_75;
+                $amount_75 = $quantity * $rate_formula_75;
+                $net_to_vendor = $amount_75 - $materialCost;
+
                 $productsArray[] = [
                     "PRODUCT/SERVICE" => $productDetail['Name'] ?? '',
                     "DESCRIPTION" => $description,
@@ -100,7 +114,11 @@ dump($productsArray);
                     "QTY" => $quantity,
                     "RATE" => $rate,
                     "AMOUNT" => $amount,
-                    "MATERIAL COST" => $materialCost
+                    "75% RATE FORMULA" => $rate_formula_75,
+                    "75% RATE NUMBER" => $rate_number_75,
+                    "75% AMOUNT" => $amount_75,
+                    "MATERIAL COST" => $materialCost,
+                    "NET TO VENDOR" => $net_to_vendor
                 ];
         }
         }
@@ -109,27 +127,65 @@ dump($productsArray);
     }
 
     // Push data to Google Sheet
-    private function pushToGoogleSheet($data, $sheetTitle)
+    private function pushToGoogleSheet($requestData, $estimate, $data)
     {
+        $operation = $requestData['operation'];
+
         $spreadsheetId = env('SPREADSHEET_ID');
 
+        $sheetTitle = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id']; // . "_" . time();
 
-        try{
-             // Delete existing tab if present
-        Sheets::spreadsheet($spreadsheetId)->deleteSheet($sheetTitle);
+        if($operation == 'Create'){
+            // Create new tab with name as sheetTitle and insert data
+            $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
+
+            $headerRow = [
+                    "PRODUCT/SERVICE" => "PRODUCT/SERVICE",
+                    "DESCRIPTION" => "DESCRIPTION",
+                    "SKU" => "SKU",
+                    "QTY" => "QTY",
+                    "RATE" => "RATE",
+                    "AMOUNT" => "AMOUNT",
+                    "75% RATE FORMULA" => "75% RATE FORMULA",
+                    "75% RATE NUMBER" => "75% RATE NUMBER",
+                    "75% AMOUNT" => "75% AMOUNT",
+                    "MATERIAL COST" => "MATERIAL COST",
+                    "NET TO VENDOR" => "NET TO VENDOR"
+                ];
+
+            array_unshift($data, $headerRow);
+
+            $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
+            $sheet->append($data);
         }
-        catch(Exception $e){
-            dump($e->getMessage());
+        elseif($operation == 'Update'){
+            try{
+                // Delete existing tab if present
+                Sheets::spreadsheet($spreadsheetId)->deleteSheet($sheetTitle);
+                $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
+
+                $headerRow = [
+                        "PRODUCT/SERVICE" => "PRODUCT/SERVICE",
+                        "DESCRIPTION" => "DESCRIPTION",
+                        "SKU" => "SKU",
+                        "QTY" => "QTY",
+                        "RATE" => "RATE",
+                        "AMOUNT" => "AMOUNT",
+                        "75% RATE FORMULA" => "75% RATE FORMULA",
+                        "75% RATE NUMBER" => "75% RATE NUMBER",
+                        "75% AMOUNT" => "75% AMOUNT",
+                        "MATERIAL COST" => "MATERIAL COST",
+                        "NET TO VENDOR" => "NET TO VENDOR"
+                    ];
+
+                array_unshift($data, $headerRow);
+
+                $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
+                $sheet->append($data);
         }
-
-
-        // Create new tab with name as PrivateNote and insert data
-        $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
-
-        $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
-        $sheet->append($data);
-
-        // $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
-        // $sheet->append($data);
+            catch(Exception $e){
+                dump($e->getMessage());
+            }
+        }
     }
 }
