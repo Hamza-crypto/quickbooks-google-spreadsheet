@@ -163,6 +163,7 @@ class WebhookController extends Controller
                 try{
                     // Delete existing tab if present
                     Sheets::spreadsheet($spreadsheetId)->deleteSheet($sheetTitle);
+                    $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
                 }
                 catch(Exception $e){
                     $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
