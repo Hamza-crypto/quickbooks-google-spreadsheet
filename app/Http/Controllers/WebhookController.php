@@ -24,7 +24,6 @@ class WebhookController extends Controller
 
     public function webhook(Request $request)
     {
-
         $eventNotification = $request['eventNotifications'][0];
         $requestData = $eventNotification['dataChangeEvent']['entities'][0];
 
@@ -32,6 +31,8 @@ class WebhookController extends Controller
 
 
         $estimateId = $requestData['id'];
+
+        sleep(5);
 
         // Extract the estimate ID from the webhook request
         // $estimateId = 146; //13709; //$entity['id'];
@@ -163,6 +164,7 @@ class WebhookController extends Controller
                 try{
                     // Delete existing tab if present
                     Sheets::spreadsheet($spreadsheetId)->deleteSheet($sheetTitle);
+                    sleep(5);
                     $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
                 }
                 catch(Exception $e){
