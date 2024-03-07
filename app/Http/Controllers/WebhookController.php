@@ -110,13 +110,13 @@ class WebhookController extends Controller
 
                 $productsArray[] = [
                     "PRODUCT/SERVICE" => $productDetail['Name'] ?? '',
-                    "DESCRIPTION" => $description,
                     "SKU" => $sku,
-                    "QTY" => $quantity,
+                    "DESCRIPTION" => "",
+                    "QTY" => sprintf("%s", $quantity),
                     "RATE" => $rate,
                     "AMOUNT" => $amount,
-                    "75% RATE FORMULA" => $rate_formula_75,
-                    "75% RATE NUMBER" => $rate_number_75,
+                    // "75% RATE FORMULA" => $rate_formula_75,
+                    "75% RATE" => $rate_number_75,
                     "75% AMOUNT" => $amount_75,
                     "MATERIAL COST" => $materialCost,
                     "NET TO VENDOR" => $net_to_vendor
@@ -134,7 +134,7 @@ class WebhookController extends Controller
 
         $spreadsheetId = env('SPREADSHEET_ID');
 
-        $sheetTitle = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id']; // . "_" . time();
+        $sheetTitle = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id'] . "_" . time();
 
         if($operation == 'Create'){
             // Create new tab with name as sheetTitle and insert data
@@ -142,13 +142,13 @@ class WebhookController extends Controller
 
             $headerRow = [
                     "PRODUCT/SERVICE" => "PRODUCT/SERVICE",
-                    "DESCRIPTION" => "DESCRIPTION",
                     "SKU" => "SKU",
+                    "DESCRIPTION" => "DESCRIPTION",
                     "QTY" => "QTY",
                     "RATE" => "RATE",
                     "AMOUNT" => "AMOUNT",
-                    "75% RATE FORMULA" => "75% RATE FORMULA",
-                    "75% RATE NUMBER" => "75% RATE NUMBER",
+                    // "75% RATE FORMULA" => "75% RATE FORMULA",
+                    "75% RATE" => "75% RATE",
                     "75% AMOUNT" => "75% AMOUNT",
                     "MATERIAL COST" => "MATERIAL COST",
                     "NET TO VENDOR" => "NET TO VENDOR"
