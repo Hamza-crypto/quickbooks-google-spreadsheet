@@ -63,6 +63,7 @@ class WebhookController extends Controller
 // dump($productsArray);
         // Push data to Google Sheet
         $this->pushToGoogleSheet($requestData, $estimate, $productsArray);
+
     }
 
     // Fetch product details including SKUs based on product IDs
@@ -111,7 +112,7 @@ class WebhookController extends Controller
                 $productsArray[] = [
                     "PRODUCT/SERVICE" => $productDetail['Name'] ?? '',
                     "SKU" => $sku,
-                    "DESCRIPTION" => "",
+                    "DESCRIPTION" => $description,
                     "QTY" => sprintf("%s", $quantity),
                     "RATE" => $rate,
                     "AMOUNT" => $amount,
@@ -134,7 +135,7 @@ class WebhookController extends Controller
 
         $spreadsheetId = env('SPREADSHEET_ID');
 
-        $sheetTitle = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id'] . "_" . time();
+        $sheetTitle = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id']; // . "_" . time();
 
         if($operation == 'Create'){
             // Create new tab with name as sheetTitle and insert data
@@ -195,5 +196,7 @@ class WebhookController extends Controller
                 dump($e->getMessage());
             }
         }
+
+        dump("Data Inserted");
     }
 }
