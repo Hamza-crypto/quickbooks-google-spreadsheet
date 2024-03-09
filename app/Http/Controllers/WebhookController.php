@@ -40,7 +40,6 @@ class WebhookController extends Controller
         // Fetch estimate details using QuickBooks API
         $estimate = $this->qb_controller->call("estimate/{$estimateId}");
 
-
         // Extract necessary data from the estimate response
         $lineItems = $estimate['Estimate']['Line'];
 
@@ -137,11 +136,8 @@ class WebhookController extends Controller
 
         $sheetTitle = $estimate['Estimate']['DocNumber'] . "_" . $estimate['Estimate']['Id']; // . "_" . time();
 
-        if($operation == 'Create'){
-            // Create new tab with name as sheetTitle and insert data
-            $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
 
-            $headerRow = [
+        $headerRow = [
                     "PRODUCT/SERVICE" => "PRODUCT/SERVICE",
                     "SKU" => "SKU",
                     "DESCRIPTION" => "DESCRIPTION",
@@ -155,6 +151,10 @@ class WebhookController extends Controller
                     "NET TO VENDOR" => "NET TO VENDOR"
                 ];
 
+
+        if($operation == 'Create'){
+            // Create new tab with name as sheetTitle and insert data
+            $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
             array_unshift($data, $headerRow);
 
             $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
@@ -172,21 +172,6 @@ class WebhookController extends Controller
                     $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
                 }
 
-
-                $headerRow = [
-                        "PRODUCT/SERVICE" => "PRODUCT/SERVICE",
-                        "DESCRIPTION" => "DESCRIPTION",
-                        "SKU" => "SKU",
-                        "QTY" => "QTY",
-                        "RATE" => "RATE",
-                        "AMOUNT" => "AMOUNT",
-                        "75% RATE FORMULA" => "75% RATE FORMULA",
-                        "75% RATE NUMBER" => "75% RATE NUMBER",
-                        "75% AMOUNT" => "75% AMOUNT",
-                        "MATERIAL COST" => "MATERIAL COST",
-                        "NET TO VENDOR" => "NET TO VENDOR"
-                    ];
-
                 array_unshift($data, $headerRow);
 
                 $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
@@ -197,6 +182,6 @@ class WebhookController extends Controller
             }
         }
 
-        dump("Data Inserted");
+        echo "Data Inserted Successfully";
     }
 }
