@@ -118,7 +118,7 @@ class WebhookController extends Controller
                     // "75% RATE FORMULA" => $rate_formula_75,
                     "75% RATE" => $rate_number_75,
                     "75% AMOUNT" => $amount_75,
-                    "MATERIAL COST" => $materialCost,
+                    "MATERIAL COST" => $materialCost * $quantity,
                     "NET TO VENDOR" => $net_to_vendor
                 ];
         }
