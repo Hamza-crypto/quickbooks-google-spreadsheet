@@ -35,4 +35,10 @@ Route::get('schedule', function () {
     Artisan::call('quickbooks:refresh-access-token');
 });
 
+
+Route::get('optimize', function () {
+    Artisan::call('optimize:clear');
+});
+
+
 //
