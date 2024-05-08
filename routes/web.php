@@ -34,3 +34,5 @@ Route::get('migrate', function () {
 Route::get('schedule', function () {
     Artisan::call('quickbooks:refresh-access-token');
 });
+
+//
