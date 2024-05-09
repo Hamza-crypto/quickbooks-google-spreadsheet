@@ -19,7 +19,7 @@ name: FTPS Test
 
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   deploy:
