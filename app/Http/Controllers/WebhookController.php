@@ -24,10 +24,17 @@ class WebhookController extends Controller
 
     public function webhook(Request $request)
     {
+        $eventNotifications = $request['eventNotifications'] ?? [];
+        if (empty($eventNotifications)) {
+            return "No data available"; // or return any other default value as needed
+        }
+
         $eventNotification = $request['eventNotifications'][0];
         $requestData = $eventNotification['dataChangeEvent']['entities'][0];
 
-        if($requestData['name'] != 'Estimate') return;
+        if($requestData['name'] != 'Estimate') {
+            return;
+        }
 
 
         $estimateId = $requestData['id'];
@@ -53,13 +60,13 @@ class WebhookController extends Controller
                 $productIds[] = $productId;
             }
         }
-// dump($productIds);
+        // dump($productIds);
         // Fetch product details including SKUs based on product IDs
         $productDetails = $this->getProductDetails($productIds);
-// dump($productDetails);
+        // dump($productDetails);
         // Generate an array of products along with SKUs
         $productsArray = $this->generateProductsArray($lineItems, $productDetails);
-// dump($productsArray);
+        // dump($productsArray);
         // Push data to Google Sheet
         $this->pushToGoogleSheet($requestData, $estimate, $productsArray);
 
@@ -67,20 +74,20 @@ class WebhookController extends Controller
 
     // Fetch product details including SKUs based on product IDs
     private function getProductDetails($productIds)
-{
-    // Wrap each product ID with single quotes
-    $productIdsQuoted = array_map(function($productId) {
-        return "'$productId'";
-    }, $productIds);
+    {
+        // Wrap each product ID with single quotes
+        $productIdsQuoted = array_map(function ($productId) {
+            return "'$productId'";
+        }, $productIds);
 
-    // Construct the query with product IDs inside quotes
-    $query = "select * from Item where id in (" . implode(',', $productIdsQuoted) . ")";
+        // Construct the query with product IDs inside quotes
+        $query = "select * from Item where id in (" . implode(',', $productIdsQuoted) . ")";
 
-    // Fetch product details using QuickBooks API
-    $productDetails = $this->qb_controller->query($query);
+        // Fetch product details using QuickBooks API
+        $productDetails = $this->qb_controller->query($query);
 
-    return $productDetails['QueryResponse']['Item'];
-}
+        return $productDetails['QueryResponse']['Item'];
+    }
 
     // Generate an array of products along with SKUs
     private function generateProductsArray($lineItems, $productDetails)
@@ -121,7 +128,7 @@ class WebhookController extends Controller
                     "MATERIAL COST" => $materialCost * $quantity,
                     "NET TO VENDOR" => $net_to_vendor
                 ];
-        }
+            }
         }
 
         return $productsArray;
@@ -152,23 +159,21 @@ class WebhookController extends Controller
                 ];
 
 
-        if($operation == 'Create'){
+        if($operation == 'Create') {
             // Create new tab with name as sheetTitle and insert data
             $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
             array_unshift($data, $headerRow);
 
             $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
             $sheet->append($data);
-        }
-        elseif($operation == 'Update'){
-            try{
-                try{
+        } elseif($operation == 'Update') {
+            try {
+                try {
                     // Delete existing tab if present
                     Sheets::spreadsheet($spreadsheetId)->deleteSheet($sheetTitle);
                     sleep(5);
                     $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
-                }
-                catch(Exception $e){
+                } catch(Exception $e) {
                     $sheet = Sheets::spreadsheet($spreadsheetId)->addSheet($sheetTitle);
                 }
 
@@ -176,8 +181,7 @@ class WebhookController extends Controller
 
                 $sheet = Sheets::spreadsheet($spreadsheetId)->sheet($sheetTitle);
                 $sheet->append($data);
-        }
-            catch(Exception $e){
+            } catch(Exception $e) {
                 dump($e->getMessage());
             }
         }
