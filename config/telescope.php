@@ -79,7 +79,7 @@ return [
     'middleware' => [
         'web',
         Authorize::class,
-        AccessWithPasscode::class,
+        // AccessWithPasscode::class,
     ],
 
     /*
