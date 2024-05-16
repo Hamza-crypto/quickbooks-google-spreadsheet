@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AccessWithPasscode;
 use Laravel\Telescope\Http\Middleware\Authorize;
 use Laravel\Telescope\Watchers;
 
@@ -78,6 +79,7 @@ return [
     'middleware' => [
         'web',
         Authorize::class,
+        AccessWithPasscode::class,
     ],
 
     /*
