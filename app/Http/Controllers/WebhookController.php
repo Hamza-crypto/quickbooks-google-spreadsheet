@@ -110,23 +110,22 @@ class WebhookController extends Controller
 
                 // Add each line item to the array with all necessary columns
 
-                $rate_formula_75 = $rate * 0.75;
+                $rate_formula_75 = $rate * 0.70; //modified from .75 to .70 on 27/May/2024
                 $rate_number_75 = $rate_formula_75;
                 $amount_75 = $quantity * $rate_formula_75;
                 $net_to_vendor = $amount_75 - $materialCost;
 
                 $productsArray[] = [
-                    "PRODUCT/SERVICE" => $productDetail['Name'] ?? '',
-                    "SKU" => $sku,
-                    "DESCRIPTION" => $description,
-                    "QTY" => sprintf("%s", $quantity),
-                    "RATE" => $rate,
-                    "AMOUNT" => $amount,
-                    // "75% RATE FORMULA" => $rate_formula_75,
-                    "75% RATE" => $rate_number_75,
-                    "75% AMOUNT" => $amount_75,
-                    "MATERIAL COST" => $materialCost * $quantity,
-                    "NET TO VENDOR" => $net_to_vendor
+                    "PRODUCT/SERVICE" => $productDetail['Name'] ?? '', //A
+                    "SKU" => $sku, //B
+                    "DESCRIPTION" => $description, //C
+                    "QTY" => sprintf("%s", $quantity), //D
+                    "RATE" => $rate, //E
+                    "AMOUNT" => $amount, //F
+                    "75% RATE" => $rate_number_75, //G
+                    "75% AMOUNT" => $amount_75, //H
+                    "MATERIAL COST" => $materialCost * $quantity, //I
+                    "NET TO VENDOR" => $net_to_vendor //J
                 ];
             }
         }
