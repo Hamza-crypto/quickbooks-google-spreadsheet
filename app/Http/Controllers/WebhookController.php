@@ -151,8 +151,8 @@ class WebhookController extends Controller
                     "RATE" => "RATE",
                     "AMOUNT" => "AMOUNT",
                     // "75% RATE FORMULA" => "75% RATE FORMULA",
-                    "75% RATE 3" => "75% RATE 2",
-                    "75% AMOUNT" => "75% AMOUNT",
+                    "75% RATE" => "70% RATE", //If we change right side of array, then it reflects in sheet header
+                    "75% AMOUNT" => "70% AMOUNT",
                     "MATERIAL COST" => "MATERIAL COST",
                     "NET TO VENDOR" => "NET TO VENDOR"
                 ];
