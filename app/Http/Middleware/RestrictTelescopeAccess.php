@@ -9,18 +9,35 @@ class RestrictTelescopeAccess
 {
     public function handle(Request $request, Closure $next)
     {
-        // List of allowed IP addresses
+        // List of allowed IP addresses (wildcards allowed)
         $allowedIps = [
             '223.123.93.116', //Z
             '2402:ad80:f8:4fb4:62e4:8cd8:fae7:1697',
-            '119.155.185.64' //U
+            '119.155.*.*', // U
         ];
 
-        if (!in_array($request->ip(), $allowedIps)) {
+        if (!$this->isAllowedIp($request->ip(), $allowedIps)) {
             // Abort with 403 Forbidden response if the IP is not allowed
             abort(403, 'Unauthorized access');
         }
 
         return $next($request);
+    }
+
+
+    protected function isAllowedIp($ip, $allowedIps)
+    {
+        foreach ($allowedIps as $allowedIp) {
+            // Convert the allowed IP into a regular expression
+            $pattern = str_replace(['*', '.'], ['[0-9]{1,3}', '\.'], $allowedIp);
+            $pattern = '/^' . $pattern . '$/';
+
+            // Check if the request IP matches the pattern
+            if (preg_match($pattern, $ip)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
