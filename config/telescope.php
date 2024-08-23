@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AccessWithPasscode;
+use App\Http\Middleware\RestrictTelescopeAccess;
 use Laravel\Telescope\Http\Middleware\Authorize;
 use Laravel\Telescope\Watchers;
 
@@ -79,7 +80,7 @@ return [
     'middleware' => [
         'web',
         Authorize::class,
-        // AccessWithPasscode::class,
+        RestrictTelescopeAccess::class,
     ],
 
     /*

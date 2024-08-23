@@ -25,7 +25,7 @@ Route::controller(WebhookController::class)->group(function () {
 });
 
 Route::get('migrate', function () {
-    Artisan::call('migrate:fresh');
+    Artisan::call('migrate');
     dump('Migration Done');
 });
 
