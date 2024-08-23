@@ -11,7 +11,7 @@ class RestrictTelescopeAccess
     {
         // List of allowed IP addresses (wildcards allowed)
         $allowedIps = [
-            '223.123.93.116', //Z
+            '223.123.*.*', //Z
             '2402:ad80:f8:4fb4:62e4:8cd8:fae7:1697',
             '119.155.*.*', // U
         ];
