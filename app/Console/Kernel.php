@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
     {
         //$schedule->command('inspire')->everyMinute();
         $schedule->command('quickbooks:refresh-access-token')->hourly();
-        $schedule->command('quickbooks:process-webhooks')->everyMinute();
+        // $schedule->command('quickbooks:process-webhooks')->everyMinute();
     }
 
     /**
