@@ -27,6 +27,10 @@ class ProcessWebhooks extends Command
 
         try {
             $webhook = WebhookPayload::first();
+
+            if(! $webhook) {
+                return;
+            }
             $estimateId = $webhook->object_id;
 
             // Fetch estimate details using QuickBooks API
