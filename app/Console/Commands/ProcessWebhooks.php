@@ -24,33 +24,38 @@ class ProcessWebhooks extends Command
 
     public function handle()
     {
-        $webhook = WebhookPayload::first();
-        $estimateId = $webhook->object_id;
 
-        // Fetch estimate details using QuickBooks API
-        $estimate = $this->qb_controller->call("estimate/{$estimateId}");
+        try {
+            $webhook = WebhookPayload::first();
+            $estimateId = $webhook->object_id;
 
-        // Extract necessary data from the estimate response
-        $lineItems = $estimate['Estimate']['Line'];
+            // Fetch estimate details using QuickBooks API
+            $estimate = $this->qb_controller->call("estimate/{$estimateId}");
 
-        // Initialize an array to store product IDs
-        $productIds = [];
+            // Extract necessary data from the estimate response
+            $lineItems = $estimate['Estimate']['Line'];
 
-        // Iterate over line items to fetch product IDs
-        foreach ($lineItems as $lineItem) {
-            $productId = $lineItem['SalesItemLineDetail']['ItemRef']['value'] ?? null;
-            if ($productId) {
-                $productIds[] = $productId;
+            // Initialize an array to store product IDs
+            $productIds = [];
+
+            // Iterate over line items to fetch product IDs
+            foreach ($lineItems as $lineItem) {
+                $productId = $lineItem['SalesItemLineDetail']['ItemRef']['value'] ?? null;
+                if ($productId) {
+                    $productIds[] = $productId;
+                }
             }
+
+            // Fetch product details including SKUs based on product IDs
+            $productDetails = $this->getProductDetails($productIds);
+
+            // Generate an array of products along with SKUs
+            $productsArray = $this->generateProductsArray($lineItems, $productDetails);
+            // Push data to Google Sheet
+            $this->pushToGoogleSheet($webhook, $estimate, $productsArray);
+        } catch(Exception $e) {
+            dump($e->getMessage());
         }
-
-        // Fetch product details including SKUs based on product IDs
-        $productDetails = $this->getProductDetails($productIds);
-
-        // Generate an array of products along with SKUs
-        $productsArray = $this->generateProductsArray($lineItems, $productDetails);
-        // Push data to Google Sheet
-        $this->pushToGoogleSheet($webhook, $estimate, $productsArray);
 
         $webhook->delete();
 
