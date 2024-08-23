@@ -57,7 +57,7 @@ class ProcessWebhooks extends Command
             dump($e->getMessage());
         }
 
-        $webhook->delete();
+        WebhookPayload::where('object_id', $estimateId)->delete();
 
     }
 
