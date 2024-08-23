@@ -22,29 +22,29 @@ Route::get('/', function () {
 Route::controller(WebhookController::class)->group(function () {
     Route::get('webhook', 'webhook');
     Route::post('webhook', 'webhook');
-    Route::get('redirect_url', 'redirect_url');
-
 });
 
 Route::get('migrate', function () {
-    Artisan::call('migrate:fresh --seed');
+    Artisan::call('migrate:fresh');
     dump('Migration Done');
 });
 
-Route::get('schedule', function () {
+// Route::get('migrate/fresh', function () {
+//     Artisan::call('migrate:fresh --seed');
+//     dump('Migration Done');
+// });
+
+Route::get('refresh-access-token', function () {
     Artisan::call('quickbooks:refresh-access-token');
 });
 
 
 Route::get('optimize', function () {
     Artisan::call('optimize:clear');
-
     dump('Optimization Done');
 
 });
 
-
 Route::get('process-webhooks', function () {
     Artisan::call('quickbooks:process-webhooks');
-
 });
