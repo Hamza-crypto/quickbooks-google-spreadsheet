@@ -42,3 +42,9 @@ Route::get('optimize', function () {
     dump('Optimization Done');
 
 });
+
+
+Route::get('process-webhooks', function () {
+    Artisan::call('quickbooks:process-webhooks');
+
+});
