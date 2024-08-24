@@ -18,7 +18,7 @@ class RestrictTelescopeAccess
 
         if (!$this->isAllowedIp($request->ip(), $allowedIps)) {
             // Abort with 403 Forbidden response if the IP is not allowed
-            abort(403, 'Unauthorized access');
+            abort(403, 'Your IP is not whitelisted');
         }
 
         return $next($request);
