@@ -40,7 +40,7 @@ Route::get('refresh-access-token', function () {
 
 
 Route::get('optimize', function () {
-    Artisan2::call('optimize:clear');
+    Artisan::call('optimize:clear');
     dump('Optimization Done');
 
 });
