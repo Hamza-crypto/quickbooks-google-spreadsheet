@@ -102,7 +102,7 @@ class ProcessWebhooks extends Command
 
                 // Add each line item to the array with all necessary columns
 
-                $rate_formula_75 = $rate * 0.70; //modified from .75 to .70 on 27/May/2024
+                $rate_formula_75 = $rate * 0.65; //modified from .75 to .70 on 27/May/2024
                 $rate_number_75 = $rate_formula_75;
                 $amount_75 = $quantity * $rate_formula_75;
                 $net_to_vendor = $amount_75 - $materialCost;
