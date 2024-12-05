@@ -114,8 +114,8 @@ class ProcessWebhooks extends Command
                     "QTY" => sprintf("%s", $quantity), //D
                     "RATE" => $rate, //E
                     "AMOUNT" => $amount, //F
-                    "75% RATE" => $rate_number_75, //G
-                    "75% AMOUNT" => $amount_75, //H
+                    "65% RATE" => $rate_number_75, //G
+                    "65% AMOUNT" => $amount_75, //H
                     "MATERIAL COST" => $materialCost * $quantity, //I
                     "NET TO VENDOR" => $net_to_vendor //J
                 ];
@@ -143,8 +143,8 @@ class ProcessWebhooks extends Command
                     "RATE" => "RATE",
                     "AMOUNT" => "AMOUNT",
                     // "75% RATE FORMULA" => "75% RATE FORMULA",
-                    "75% RATE" => "70% RATE", //If we change right side of array, then it reflects in sheet header
-                    "75% AMOUNT" => "70% AMOUNT",
+                    "65% RATE" => "70% RATE", //If we change right side of array, then it reflects in sheet header
+                    "65% AMOUNT" => "70% AMOUNT",
                     "MATERIAL COST" => "MATERIAL COST",
                     "NET TO VENDOR" => "NET TO VENDOR"
                 ];
