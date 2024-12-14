@@ -143,8 +143,8 @@ class ProcessWebhooks extends Command
                     "RATE" => "RATE",
                     "AMOUNT" => "AMOUNT",
                     // "75% RATE FORMULA" => "75% RATE FORMULA",
-                    "65% RATE" => "70% RATE", //If we change right side of array, then it reflects in sheet header
-                    "65% AMOUNT" => "70% AMOUNT",
+                    "65% RATE" => "65% RATE", //If we change right side of array, then it reflects in sheet header
+                    "65% AMOUNT" => "65% AMOUNT",
                     "MATERIAL COST" => "MATERIAL COST",
                     "NET TO VENDOR" => "NET TO VENDOR"
                 ];
