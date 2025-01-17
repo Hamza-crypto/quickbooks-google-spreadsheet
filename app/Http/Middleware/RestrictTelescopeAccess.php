@@ -14,6 +14,7 @@ class RestrictTelescopeAccess
             '223.123.*.*', //Z
             '2402:ad80:f8:4fb4:62e4:8cd8:fae7:1697',
             '119.155.*.*', // U
+            '123.253.*.*'
         ];
 
         if (!$this->isAllowedIp($request->ip(), $allowedIps)) {
