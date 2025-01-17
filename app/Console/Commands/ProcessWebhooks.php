@@ -93,6 +93,8 @@ class ProcessWebhooks extends Command
             $rate = $lineItem['SalesItemLineDetail']['UnitPrice'] ?? '';
             $amount = $lineItem['Amount'] ?? '';
 
+            $rate = is_numeric($rate) ? (float) $rate : 0;
+
             // Find product details by ID
             $productDetail = collect($productDetails)->firstWhere('Id', $productId);
 
